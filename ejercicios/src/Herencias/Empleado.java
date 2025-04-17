@@ -1,4 +1,4 @@
-package Erencias;
+package Herencias;
 
 public class Empleado {
 	protected String nombre;

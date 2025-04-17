@@ -1,4 +1,4 @@
-package Erencias;
+package Herencias;
 
 public class EmpleadoTiempoCompleto extends Empleado {
 	private double bonoAnual;

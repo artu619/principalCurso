@@ -1,4 +1,4 @@
-package Erencias;
+package Herencias;
 
 public class EmpleadoTiempoParcial extends Empleado {
 	private int horasTrabajadas;
