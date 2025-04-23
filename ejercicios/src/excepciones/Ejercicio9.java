@@ -9,7 +9,7 @@ public class Ejercicio9 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		 String filePath = "E:/descargas/prueba.txt"; // Cambia esto por la ruta de tu archivo
+		 String filePath = "prueba.txt"; // Cambia esto por la ruta de tu archivo
 
 	        try (FileReader fileReader = new FileReader(filePath);
 	             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
