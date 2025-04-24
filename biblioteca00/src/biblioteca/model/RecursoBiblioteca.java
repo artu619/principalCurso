@@ -3,11 +3,10 @@ package biblioteca.model;
 import biblioteca.enums.EstadoRecurso;
 
 /**
- * Clase abstracta que representa un recurso genérico de la biblioteca.
- * Sirve como base para clases concretas como Libro, Revista y DVD.
+ * Clase abstracta que representa un recurso general de la biblioteca.
+ * Puede ser un libro, revista o DVD. Contiene atributos comunes como ID,
+ * título y estado del recurso (disponible o prestado).
  */
-
-
 public class RecursoBiblioteca {
 	protected String id;         // ID único del recurso (ej: L1, R2, D3)
     protected String titulo;     // Título del recurso (ej: "Don Quijote")
@@ -15,31 +14,29 @@ public class RecursoBiblioteca {
     
     
     /**
-     * Constructor para inicializar un recurso de la biblioteca.
-     * @param id Identificador único del recurso.
+     * Constructor para inicializar un recurso con ID y título.
+     *
+     * @param id     Identificador único del recurso.
      * @param titulo Título del recurso.
      */
-
 	    public RecursoBiblioteca(String id, String titulo) {
 	        this.id = id;
 	        this.titulo = titulo;
 	        this.estado = EstadoRecurso.DISPONIBLE;
 	    }
+	    
 	    /**
 	     * Obtiene el ID del recurso.
 	     * @return ID del recurso.
 	     */
-
-	    
 	    public String getId() {
 	        return id;
 	    }
+	    
 	    /**
 	     * Obtiene el estado actual del recurso.
 	     * @return Estado (DISPONIBLE, PRESTADO, RESERVADO).
 	     */
-	    
-
 	    public EstadoRecurso getEstado() {
 	        return estado;
 	    }
@@ -61,11 +58,11 @@ public class RecursoBiblioteca {
 	            System.out.println(titulo + " no estaba prestado.");
 	        }
 	    }
+	    
 	    /**
 	     * Representación textual del recurso.
 	     * Sobrescribe el método toString para mostrar info útil.
 	     */
-
 	    @Override
 	    public String toString() {
 	        return "[" + id + "] " + titulo + " (" + estado + ")";

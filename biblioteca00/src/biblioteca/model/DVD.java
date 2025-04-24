@@ -4,7 +4,6 @@ package biblioteca.model;
  * Clase que representa un DVD en la biblioteca.
  * Hereda de RecursoBiblioteca.
  */
-
 public class DVD extends RecursoBiblioteca {
 	/**
      * Constructor de DVD.
