@@ -6,25 +6,34 @@ import biblioteca.enums.EstadoRecurso;
 import java.util.*;
 
 /**
- * Clase principal que ejecuta el programa de gestión de biblioteca.
- * Contiene un menú interactivo para listar, prestar y devolver recursos de una biblioteca.
+ * Clase principal que ejecuta la aplicación de gestión de recursos de una biblioteca.
+ * 
+ * Proporciona un menú interactivo para listar, prestar y devolver recursos, 
+ * permitiendo la interacción con los usuarios y los distintos materiales disponibles.
  */
 public class Main {
-	/** Mapa que almacena los recursos disponibles en la biblioteca, identificados por su ID. */
+
+    /** Mapa que almacena los recursos disponibles, identificados por su ID único. */
     private static Map<String, RecursoBiblioteca> recursos = new HashMap<>();
+    
+    /** Mapa que almacena los usuarios registrados en la biblioteca. */
     private static Map<String, Usuario> usuarios = new HashMap<>();
-    /** Escáner para leer entradas desde consola */
+
+    /** Escáner utilizado para la lectura de entradas desde la consola. */
     private static Scanner scanner = new Scanner(System.in);
-    /** Método principal del programa */
+
+    /**
+     * Método principal del programa. Ejecuta el flujo de la aplicación y gestiona el menú principal.
+     * 
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
-        inicializarDatos(); // Carga algunos recursos y usuarios predefinidos
+        inicializarDatos();
 
         int opcion;
-        /** Ciclo principal del menú */
         do {
             mostrarMenu();
             opcion = leerEntero("Seleccione una opción: ");
-            /** Menú de opciones */
             switch (opcion) {
                 case 1:
                     listarRecursos();
@@ -43,7 +52,10 @@ public class Main {
             }
         } while (opcion != 4);
     }
-    /** Muestra el menú principal en consola */
+
+    /**
+     * Muestra el menú de opciones disponibles para el usuario.
+     */
     private static void mostrarMenu() {
         System.out.println("\n====== Menú Biblioteca ======");
         System.out.println("1. Listar todos los recursos");
@@ -52,46 +64,41 @@ public class Main {
         System.out.println("4. Salir");
         System.out.println("=============================");
     }
+
     /**
-     * Inicializa la biblioteca con recursos y usuarios de ejemplo para pruebas.
+     * Inicializa la biblioteca con un conjunto de recursos (libros, revistas y DVDs)
+     * y usuarios de ejemplo, usados para pruebas o demostración del sistema.
      */
     private static void inicializarDatos() {
-        // Libros
         recursos.put("L1", new Libro("L1", "Don Quijote"));
         recursos.put("L2", new Libro("L2", "Cien Años de Soledad"));
         recursos.put("L3", new Libro("L3", "El Principito"));
-       
 
-        // Revistas
         recursos.put("R1", new Revista("R1", "National Geographic"));
         recursos.put("R2", new Revista("R2", "Muy Interesante"));
         recursos.put("R3", new Revista("R3", "Ciencia Hoy"));
-        
 
-        // DVDs
         recursos.put("D1", new DVD("D1", "Matrix"));
         recursos.put("D2", new DVD("D2", "Inception"));
         recursos.put("D3", new DVD("D3", "El Señor de los Anillos"));
 
-        // Usuarios
         usuarios.put("U1", new Usuario("U1", "Ana"));
         usuarios.put("U2", new Usuario("U2", "Luis"));
         usuarios.put("U3", new Usuario("U3", "Sofía"));
         usuarios.put("U4", new Usuario("U4", "Carlos"));
     }
+
     /**
      * Muestra todos los recursos registrados en la biblioteca,
-     * organizados por tipo (Libros, Revistas, DVDs) y ordenados alfabéticamente.
+     * clasificados por tipo (Libros, Revistas y DVDs) y ordenados alfabéticamente por título.
      */
     private static void listarRecursos() {
         System.out.println("\n--- Lista de Recursos ---");
 
-        // Listas separadas por tipo 
         List<RecursoBiblioteca> libros = new ArrayList<>();
         List<RecursoBiblioteca> revistas = new ArrayList<>();
         List<RecursoBiblioteca> dvds = new ArrayList<>();
 
-        // Clasifica los recursos por tipo
         for (RecursoBiblioteca recurso : recursos.values()) {
             if (recurso instanceof Libro) {
                 libros.add(recurso);
@@ -102,38 +109,30 @@ public class Main {
             }
         }
 
-        // Ordena por título dentro de cada tipo
         Comparator<RecursoBiblioteca> porTitulo = Comparator.comparing(RecursoBiblioteca::getTitulo);
         libros.sort(porTitulo);
         revistas.sort(porTitulo);
         dvds.sort(porTitulo);
 
-        // Muestra los recursos organizados
         if (!libros.isEmpty()) {
             System.out.println("📚 Libros:");
-            for (RecursoBiblioteca libro : libros) {
-                System.out.println("  - " + libro);
-            }
+            libros.forEach(libro -> System.out.println("  - " + libro));
         }
 
         if (!revistas.isEmpty()) {
             System.out.println("\n📰 Revistas:");
-            for (RecursoBiblioteca revista : revistas) {
-                System.out.println("  - " + revista);
-            }
+            revistas.forEach(revista -> System.out.println("  - " + revista));
         }
 
         if (!dvds.isEmpty()) {
             System.out.println("\n🎬 DVDs:");
-            for (RecursoBiblioteca dvd : dvds) {
-                System.out.println("  - " + dvd);
-            }
+            dvds.forEach(dvd -> System.out.println("  - " + dvd));
         }
     }
-    
+
     /**
-     * Permite a un usuario prestar un recurso si este está disponible.
-     * Solicita el ID del recurso y del usuario desde consola.
+     * Permite a un usuario prestar un recurso, siempre que este esté disponible.
+     * Solicita al usuario ingresar el ID del recurso y el ID del usuario correspondiente.
      */
     private static void prestarRecurso() {
         System.out.print("Ingrese ID del recurso a prestar: ");
@@ -143,10 +142,10 @@ public class Main {
 
         RecursoBiblioteca recurso = recursos.get(idRecurso);
         Usuario usuario = usuarios.get(idUsuario);
-     // Solo se presta si está disponible
+
         if (recurso != null && usuario != null) {
             if (recurso.getEstado() == EstadoRecurso.DISPONIBLE) {
-                usuario.prestarRecurso(recurso);// Llama al método en Usuario
+                usuario.prestarRecurso(recurso);
                 System.out.println("✅ El recurso \"" + recurso.getTitulo() + "\" ha sido prestado a " + usuario.getNombre() + ".");
             } else {
                 System.out.println("❌ El recurso \"" + recurso.getTitulo() + "\" no está disponible. Estado actual: " + recurso.getEstado());
@@ -155,9 +154,10 @@ public class Main {
             System.out.println("❌ Recurso o usuario no encontrado.");
         }
     }
+
     /**
-     * Permite devolver un recurso prestado. Se busca el usuario que tiene
-     * el recurso y se marca como devuelto.
+     * Permite devolver un recurso que haya sido previamente prestado a un usuario.
+     * Identifica qué usuario tiene el recurso y realiza la operación de devolución.
      */
     private static void devolverRecurso() {
         System.out.print("Ingrese ID del recurso a devolver: ");
@@ -165,7 +165,6 @@ public class Main {
 
         RecursoBiblioteca recurso = recursos.get(idRecurso);
         if (recurso != null) {
-        // Verifica cuál usuario tiene el recurso y lo devuelve
             for (Usuario usuario : usuarios.values()) {
                 if (usuario.tienePrestado(recurso)) {
                     usuario.devolverRecurso(recurso);
@@ -178,20 +177,22 @@ public class Main {
             System.out.println("❌ Recurso no encontrado.");
         }
     }
+
     /**
-     * Solicita al usuario que introduzca un número entero y valida la entrada.
+     * Solicita al usuario introducir un número entero, asegurando que la entrada sea válida.
      *
-     * @param mensaje Mensaje que se mostrará antes de la entrada.
-     * @return Número entero introducido por el usuario.
+     * @param mensaje Texto que se muestra al usuario antes de la entrada.
+     * @return El número entero introducido por el usuario.
      */
     private static int leerEntero(String mensaje) {
         System.out.print(mensaje);
         while (!scanner.hasNextInt()) {
             System.out.print("Por favor ingrese un número válido: ");
-            scanner.next(); // descarta entrada no numérica
+            scanner.next();
         }
         int numero = scanner.nextInt();
-        scanner.nextLine(); // consume salto de línea
+        scanner.nextLine(); // Consume el salto de línea pendiente
         return numero;
     }
 }
+
