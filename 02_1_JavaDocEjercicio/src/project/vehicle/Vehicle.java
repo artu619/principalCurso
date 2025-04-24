@@ -15,7 +15,7 @@ public abstract class Vehicle implements Raceable, Maintainable {
     private TrackType preferredTrack;
     private boolean inRace = false;
     private boolean maintenanceRequired = false;
-    protected List<Double> lapTimes = new ArrayList<>();
+    public List<Double> lapTimes = new ArrayList<>();
 
     public Vehicle(String model, EngineType engineType, double maxSpeed, TrackType preferredTrack) {
         Validator.checkNotNull(model, "Model");
