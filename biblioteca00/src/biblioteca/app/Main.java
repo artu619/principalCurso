@@ -90,10 +90,10 @@ public class Main {
 
     /**
      * Muestra todos los recursos registrados en la biblioteca,
-     * clasificados por tipo (Libros, Revistas y DVDs) y ordenados alfabéticamente por título.
+     * clasificados por tipo (Libros, Revistas y DVDs) y ordenados por ID.
      */
     private static void listarRecursos() {
-        System.out.println("\n--- Lista de Recursos ---");
+    	System.out.println("\n--- Lista de Recursos ---");
 
         List<RecursoBiblioteca> libros = new ArrayList<>();
         List<RecursoBiblioteca> revistas = new ArrayList<>();
@@ -109,24 +109,28 @@ public class Main {
             }
         }
 
-        Comparator<RecursoBiblioteca> porTitulo = Comparator.comparing(RecursoBiblioteca::getTitulo);
-        libros.sort(porTitulo);
-        revistas.sort(porTitulo);
-        dvds.sort(porTitulo);
+        // Ordenar por ID
+        Comparator<RecursoBiblioteca> porId = Comparator.comparing(RecursoBiblioteca::getId);
+        libros.sort(porId);
+        revistas.sort(porId);
+        dvds.sort(porId);
 
         if (!libros.isEmpty()) {
             System.out.println("📚 Libros:");
-            libros.forEach(libro -> System.out.println("  - " + libro));
+            libros.forEach(libro -> System.out.println(
+                "  - [" + libro.getId() + "] " + libro.getTitulo() + " (Estado: " + libro.getEstado() + ")"));
         }
 
         if (!revistas.isEmpty()) {
             System.out.println("\n📰 Revistas:");
-            revistas.forEach(revista -> System.out.println("  - " + revista));
+            revistas.forEach(revista -> System.out.println(
+                "  - [" + revista.getId() + "] " + revista.getTitulo() + " (Estado: " + revista.getEstado() + ")"));
         }
 
         if (!dvds.isEmpty()) {
             System.out.println("\n🎬 DVDs:");
-            dvds.forEach(dvd -> System.out.println("  - " + dvd));
+            dvds.forEach(dvd -> System.out.println(
+                "  - [" + dvd.getId() + "] " + dvd.getTitulo() + " (Estado: " + dvd.getEstado() + ")"));
         }
     }
 
