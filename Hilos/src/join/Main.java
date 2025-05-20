@@ -10,7 +10,7 @@ public class Main {
 
         for (int i = 0; i < 5; i++) {
             hilos[i] = new Thread(new Incrementador(contador));
-            hilos[i].start();
+            hilos[i].run();
         }
 
         for (Thread hilo : hilos) {
